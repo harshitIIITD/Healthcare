@@ -233,7 +233,7 @@ php artisan queue:work
 ## Security
 
 
-If you discover any security vulnerabilities, please email security@[your-domain].com.
+If you discover any security vulnerabilities, please email nhk2harshit@gmail.com.
 
 
 ## License
@@ -245,4 +245,4 @@ This application is licensed under the MIT license.
 ## Support
 
 
-For support, email support@[your-domain].com or create an issue in the repository.
+For support, email nhk2harshit@gmail.com or create an issue in the repository.
