@@ -9,6 +9,10 @@ Default credentials:
 - Email: admin@example.com
 - Password: password
 
+## I have created a gradio based mri analysis application
+Visit [http://127.0.0.1:7860](http://127.0.0.1:7860) to access the application.
+
+
 
 # Healthcare Management System
 
