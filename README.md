@@ -10,7 +10,7 @@ Default credentials:
 - Password: password
 
 ## I have created a gradio based mri analysis application
-Visit [http://127.0.0.1:7860](http://127.0.0.1:7860) to access the application.
+Visit [https://huggingface.co/spaces/hjvsf/mri](https://huggingface.co/spaces/hjvsf/mri) to access the application.
 
 
 
