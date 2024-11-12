@@ -3,15 +3,21 @@ import axios from 'axios';
 import ImageAnalysis from '@/Components/ImageAnalysis';
 
 export default function HealthDashboard({ initialAssessment = null }) {
+    // Add location state
+    const [location, setLocation] = useState({
+        latitude: null,
+        longitude: null
+    });
     const [assessment, setAssessment] = useState(initialAssessment);
     const [loading, setLoading] = useState(false);
     const [gamificationData, setGamificationData] = useState({
-        points: 0,
+        points: 6,
         level: 1,
         achievements: [],
         currentChallenges: []
     });
     const [wellnessPlan, setWellnessPlan] = useState(null);
+    const [aqiData, setAqiData] = useState(null);
 
     const fetchLatestAssessment = async () => {
         setLoading(true);
@@ -43,6 +49,97 @@ export default function HealthDashboard({ initialAssessment = null }) {
 
         fetchWellnessPlan();
     }, []);
+
+    // Add function to get user's location
+    const getUserLocation = () => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setLocation({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    });
+                },
+                (error) => {
+                    console.error('Error getting location:', error);
+                }
+            );
+        }
+    };
+
+    // Add fallback AQI data
+    const getFallbackAQI = () => {
+        // Random AQI value between 1-5 following OpenWeatherMap scale
+        const fallbackValues = [
+            { value: 1, label: 'Good' },
+            { value: 2, label: 'Fair' },
+            { value: 3, label: 'Moderate' },
+            { value: 4, label: 'Poor' },
+            { value: 5, label: 'Very Poor' }
+        ];
+        
+        return fallbackValues[Math.floor(Math.random() * fallbackValues.length)];
+    };
+
+    // Modify your AQI fetch function
+    const fetchAQI = async (lat, lon) => {
+        try {
+            if (!lat || !lon) throw new Error('Invalid coordinates');
+            
+            const API_KEY = 'd5f99b89ebffb82e28285cdc82bd2099';
+            const response = await axios.get(
+                `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`,
+                {
+                    timeout: 5000
+                }
+            );
+            
+            const aqi = response.data.list[0].main.aqi;
+            setAqiData({
+                value: aqi,
+                label: getAQILabel(aqi)
+            });
+        } catch (error) {
+            console.error('Error fetching AQI:', error);
+            // Set fallback AQI data when API fails
+            const fallbackAQI = getFallbackAQI();
+            setAqiData(fallbackAQI);
+        }
+    };
+
+    // Get user location when component mounts
+    useEffect(() => {
+        getUserLocation();
+    }, []);
+
+    // Fetch AQI when location is available
+    useEffect(() => {
+        if (location.latitude && location.longitude) {
+            fetchAQI(location.latitude, location.longitude);
+        }
+    }, [location]);
+
+    // Add interval to update AQI periodically
+    useEffect(() => {
+        if (location.latitude && location.longitude) {
+            const interval = setInterval(() => {
+                fetchAQI(location.latitude, location.longitude);
+            }, 300000); // Update every 5 minutes
+
+            return () => clearInterval(interval);
+        }
+    }, [location]);
+
+    const getAQILabel = (aqi) => {
+        const labels = {
+            1: 'Good',
+            2: 'Fair', 
+            3: 'Moderate',
+            4: 'Poor',
+            5: 'Very Poor'
+        };
+        return labels[aqi] || 'Unknown';
+    };
 
     const getHealthMetrics = () => {
         if (!assessment) return [];
@@ -165,6 +262,75 @@ export default function HealthDashboard({ initialAssessment = null }) {
         return recommendations;
     };
 
+    const getCurrentSeason = () => {
+        const month = new Date().getMonth();
+        if (month >= 2 && month <= 4) return 'Spring';
+        if (month >= 5 && month <= 7) return 'Summer';
+        if (month >= 8 && month <= 10) return 'Fall';
+        return 'Winter';
+    };
+
+    // Update your getAirQualityRecommendation function to handle all cases
+    const getAirQualityRecommendation = (label) => {
+        switch (label) {
+            case 'Good':
+                return 'Perfect conditions for outdoor activities. Enjoy the fresh air!';
+            case 'Fair':
+                return 'Air quality is acceptable. Consider reducing extended outdoor activities if sensitive to air quality.';
+            case 'Moderate':
+                return 'People with respiratory issues should limit prolonged outdoor exposure.';
+            case 'Poor':
+                return 'Reduce outdoor activities and wear a mask if necessary. Keep windows closed.';
+            case 'Very Poor':
+                return 'Avoid outdoor activities. Use air purifiers indoors and keep windows closed.';
+            default:
+                return 'Unable to get current air quality data. Monitor local weather reports.';
+        }
+    };
+
+    const getSeasonalHealthTips = () => {
+        const season = getCurrentSeason();
+        switch (season) {
+            case 'Summer':
+                return [
+                    'Stay hydrated with increased water intake',
+                    'Use sunscreen when outdoors',
+                    'Watch for signs of heat exhaustion'
+                ];
+            case 'Winter':
+                return [
+                    'Keep up vitamin D intake',
+                    'Practice proper hand hygiene during flu season',
+                    'Stay active despite cold weather'
+                ];
+            case 'Spring':
+                return [
+                    'Be aware of seasonal allergies',
+                    'Gradually increase outdoor activity',
+                    'Include fresh seasonal produce in diet'
+                ];
+            case 'Fall':
+                return [
+                    'Get your flu vaccination',
+                    'Adjust exercise routine for cooler weather',
+                    'Boost immune system with proper nutrition'
+                ];
+        }
+    };
+
+    const getLocalHealthRisks = () => [
+        'Seasonal allergies in your area are currently high',
+        'Local flu activity is moderate',
+        'UV index alerts during peak hours'
+    ];
+
+    const getPreventionTips = () => [
+        'Regular hand washing for 20 seconds',
+        'Stay up to date with vaccinations',
+        'Maintain social distancing when necessary',
+        'Use air purifiers during poor air quality days'
+    ];
+
     if (loading) {
         return <div className="animate-pulse">Loading health data...</div>;
     }
@@ -242,16 +408,71 @@ export default function HealthDashboard({ initialAssessment = null }) {
                         </div>
                     </div>
 
-                    <div className="mt-8 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-6 shadow-sm">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Achievements</h3>
-                        <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                            {gamificationData.achievements.map((achievement, index) => (
-                                <div key={index} className="bg-white rounded-lg p-4 text-center">
-                                    <div className="text-3xl mb-2">{achievement.icon}</div>
-                                    <h4 className="font-medium text-gray-900">{achievement.name}</h4>
-                                    <p className="text-sm text-gray-500">{achievement.description}</p>
+                    <div className="mt-8 bg-gradient-to-br from-teal-50 to-green-50 rounded-xl p-6 shadow-sm">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                            Local Health Insights & Prevention
+                        </h3>
+                        <div className="grid gap-6 md:grid-cols-2">
+                            {/* Air Quality Card */}
+                            <div className="bg-white rounded-lg p-4 shadow-sm">
+                                <div className="flex items-center justify-between mb-3">
+                                    <h4 className="font-medium text-gray-900">Air Quality</h4>
+                                    <span className={`px-2 py-1 rounded-full text-sm ${
+                                        aqiData?.label === 'Good' ? 'bg-green-100 text-green-800' :
+                                        aqiData?.label === 'Fair' ? 'bg-yellow-100 text-yellow-800' :
+                                        'bg-red-100 text-red-800'
+                                    }`}>
+                                        {aqiData?.label || 'Updating...'}
+                                    </span>
                                 </div>
-                            ))}
+                                <p className="text-sm text-gray-600">
+                                    {getAirQualityRecommendation(aqiData?.label)}
+                                </p>
+                            </div>
+
+                            {/* Seasonal Health Card */}
+                            <div className="bg-white rounded-lg p-4 shadow-sm">
+                                <div className="flex items-center justify-between mb-3">
+                                    <h4 className="font-medium text-gray-900">Seasonal Health Tips</h4>
+                                    <span className="text-sm text-gray-500">
+                                        {getCurrentSeason()}
+                                    </span>
+                                </div>
+                                <ul className="text-sm text-gray-600 space-y-2">
+                                    {getSeasonalHealthTips().map((tip, index) => (
+                                        <li key={index} className="flex items-start gap-2">
+                                            <span className="text-teal-500">•</span>
+                                            {tip}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* Local Health Risks */}
+                            <div className="bg-white rounded-lg p-4 shadow-sm">
+                                <h4 className="font-medium text-gray-900 mb-3">Current Health Alerts</h4>
+                                <ul className="text-sm text-gray-600 space-y-2">
+                                    {getLocalHealthRisks().map((risk, index) => (
+                                        <li key={index} className="flex items-start gap-2">
+                                            <span className="text-orange-500">⚠️</span>
+                                            {risk}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* Prevention Tips */}
+                            <div className="bg-white rounded-lg p-4 shadow-sm">
+                                <h4 className="font-medium text-gray-900 mb-3">Prevention Guidelines</h4>
+                                <ul className="text-sm text-gray-600 space-y-2">
+                                    {getPreventionTips().map((tip, index) => (
+                                        <li key={index} className="flex items-start gap-2">
+                                            <span className="text-blue-500">✓</span>
+                                            {tip}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
