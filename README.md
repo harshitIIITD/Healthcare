@@ -2,7 +2,7 @@
 ## Accessing the Application
 
 
-Visit [http://139.84.170.84](http://139.84.170.84) to access the application.
+Visit [http://139.84.171.208/](http://139.84.171.208/) to access the application.
 
 
 Default credentials:
@@ -170,7 +170,7 @@ php artisan view:cache
 ## Accessing the Application
 
 
-Visit [http://139.84.170.84](http://139.84.170.84) to access the application.
+Visit [http://139.84.171.208/](http://139.84.171.208/) to access the application.
 
 
 Default credentials:
