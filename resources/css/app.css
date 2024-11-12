@@ -37,3 +37,30 @@
     font-style: italic;
     margin-top: 10px;
 }
+/* Add these styles */
+.hospitals-card {
+    width: 100%;
+  }
+  
+  .hospitals-list {
+    margin-top: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .hospital-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .hospital-item h4 {
+    margin: 0;
+    color: #333;
+  }
+  
+  .hospital-address,
+  .hospital-phone {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #666;
+  }

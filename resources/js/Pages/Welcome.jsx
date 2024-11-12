@@ -16,26 +16,26 @@ export default function Welcome({ auth }) {
                             </div>
                             <div className="hidden md:block">
                                 <div className="flex items-center space-x-4">
-                                    {auth?.user ? (
+                                    {auth.user ? (
                                         <Link
-                                            href="/dashboard"
-                                            className="px-4 py-2 rounded-lg text-gray-700 hover:bg-blue-50 dark:text-gray-200 dark:hover:bg-gray-800"
+                                            href={route('dashboard')}
+                                            className="text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400"
                                         >
                                             Dashboard
                                         </Link>
                                     ) : (
                                         <>
                                             <Link
-                                                href="/login"
-                                                className="px-4 py-2 rounded-lg text-gray-700 hover:bg-blue-50 dark:text-gray-200 dark:hover:bg-gray-800"
+                                                href={route('login')}
+                                                className="text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400"
                                             >
-                                                Login
+                                                Log in
                                             </Link>
                                             <Link
-                                                href="/register"
-                                                className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                                                href={route('register')}
+                                                className="rounded-md bg-blue-600 px-4 py-2 text-white font-semibold shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                                             >
-                                                Get Started
+                                                Start Free Trial
                                             </Link>
                                         </>
                                     )}
@@ -58,10 +58,16 @@ export default function Welcome({ auth }) {
                             </p>
                             <div className="mt-10 flex items-center justify-center gap-x-6">
                                 <Link
-                                    href="/register"
+                                    href={route('register')}
                                     className="rounded-md bg-blue-600 px-8 py-3 text-lg font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                                 >
                                     Start Free Trial
+                                </Link>
+                                <Link
+                                    href={route('login')}
+                                    className="text-lg font-semibold leading-6 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400"
+                                >
+                                    Log in <span aria-hidden="true">→</span>
                                 </Link>
                             </div>
                         </div>

@@ -22,8 +22,8 @@ export default function ChatWidget() {
             const response = await axios.post('https://api.vultrinference.com/v1/chat/completions', {
                 model: "llama2-7b-chat-Q5_K_M",
                 messages: [{
-                    role: "system",
-                    content: "You are a helpful assistant. Provide clear and concise responses."
+                    role: "health assistant",
+                    content: "I am a virtual assistant here to help you with your health queries."
                 }, {
                     role: "user",
                     content: input
