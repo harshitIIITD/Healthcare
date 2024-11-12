@@ -22,11 +22,11 @@ export default function ChatWidget() {
             const response = await axios.post('https://api.vultrinference.com/v1/chat/completions', {
                 model: "llama2-7b-chat-Q5_K_M",
                 messages: [{
-                    role: "health assistant",
+                    role: "system",
                     content: "I am a virtual assistant here to help you with your health queries."
                 }, {
                     role: "user",
-                    content: input
+                    content: input 
                 }],
                 max_tokens: 256,
                 temperature: 0.7,
