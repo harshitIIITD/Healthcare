@@ -1,4 +1,3 @@
-
 ## Accessing the Application
 
 
@@ -12,7 +11,13 @@ Default credentials:
 ## I have created a gradio based mri analysis application
 Visit [https://huggingface.co/spaces/hjvsf/mri](https://huggingface.co/spaces/hjvsf/mri) to access the application.
 
+## Demo Video
+Watch a demonstration of the application's features:
 
+<video width="100%" controls>
+  <source src="https://del1.vultrobjects.com/mybucket/videos/Screencast%20from%202024-11-14%2002-27-59.mp4" type="video/mp4">
+  Your browser does not support the video tag. Access the video directly: <a href="https://del1.vultrobjects.com/mybucket/videos/Screencast%20from%202024-11-14%2002-27-59.mp4">here</a>
+</video>
 
 # Healthcare Management System
 
