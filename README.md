@@ -14,10 +14,11 @@ Visit [https://huggingface.co/spaces/hjvsf/mri](https://huggingface.co/spaces/hj
 ## Demo Video
 Watch a demonstration of the application's features:
 
-<video width="100%" controls>
-  <source src="https://del1.vultrobjects.com/mybucket/videos/Screencast%20from%202024-11-14%2002-27-59.mp4" type="video/mp4">
-  Your browser does not support the video tag. Access the video directly: <a href="https://del1.vultrobjects.com/mybucket/videos/Screencast%20from%202024-11-14%2002-27-59.mp4">here</a>
-</video>
+[![Demo Video](https://del1.vultrobjects.com/mybucket/videos/preview.gif)](https://del1.vultrobjects.com/mybucket/videos/Screencast%20from%202024-11-14%2002-27-59.mp4)
+
+[▶️ Watch full video](https://del1.vultrobjects.com/mybucket/videos/Screencast%20from%202024-11-14%2002-27-59.mp4)
+
+*Click on the preview image above or the link to watch the full demonstration video*
 
 # Healthcare Management System
 
