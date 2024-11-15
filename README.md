@@ -1,7 +1,7 @@
 ## Accessing the Application
 
 
-Visit [http://139.84.171.208/](http://139.84.171.208/) to access the application.
+Visit [https://139.84.171.208/](https://139.84.171.208/) to access the application.
 
 
 Default credentials:
