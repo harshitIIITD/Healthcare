@@ -14,7 +14,7 @@ Visit [https://huggingface.co/spaces/hjvsf/mri](https://huggingface.co/spaces/hj
 ## Demo Video
 Watch a demonstration of the application's features:
 
-[![Demo Video](https://del1.vultrobjects.com/mybucket/videos/preview.gif)](https://del1.vultrobjects.com/mybucket/videos/Screencast%20from%202024-11-14%2002-27-59.mp4)
+*(If the video above doesn't load, you can [view it directly](https://github.com/harshitIIITD/Healthcare/blob/main/app/Screencast%20from%202024-11-14%2002-27-59.mp4))*
 
 [▶️ Watch full video](https://github.com/harshitIIITD/Healthcare/blob/main/Screencast%20from%202024-11-14%2002-27-59.mp4)
 
